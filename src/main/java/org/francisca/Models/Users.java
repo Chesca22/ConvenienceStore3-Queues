@@ -5,12 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.francisca.Roles;
+
+import java.util.Comparator;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 
-public class Users implements Comparable<Users>{
+public class Users {
     private String name;
     private int id;
     private Roles roles;
@@ -45,15 +48,10 @@ public class Users implements Comparable<Users>{
 
     @Override
     public String toString() {
-        return "New Customer:" +
-                " Customer name: " + name + " " +
-                ", ID number: " + id;
+        return
+                " Customer name: " + name + ",  " +
+                "ID number:  " + id;
     }
 
-    @Override
-    public int compareTo(Users customer) {
-        return customer.id > this.id ? 1:-1;
 
-
-    }
 }

@@ -13,9 +13,13 @@ import java.util.*;
 @Setter
 
 public class Store {
-    public ArrayList<Product> cart = new ArrayList<>();
-    public static Map<Users, ArrayList<Product>> myCart = new HashMap<>();
-    public Queue<Users> queueList = new LinkedList<>();
-    public PriorityQueue<Users> priorityQueueList = new PriorityQueue<>();
+    public List<Product> cart = new ArrayList<>();
+    private Map<Users,ArrayList <Product>> myCart = new HashMap<>();
+    private Queue<Users> queueList = new LinkedList<>();
+    public Queue<Users> priorityQueueList = new PriorityQueue<>();
+    private Map<Users, ArrayList<Product>> readyToPrintQueue = new LinkedHashMap<>();
     private Product product;
+
+
+
 }

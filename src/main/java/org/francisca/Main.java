@@ -53,17 +53,28 @@ public class Main {
             newStore.addToCart(customer4, "whole wheat", 20L);
 
             System.out.println("*".repeat(100));
-            newStore.printAllHashValues();
+
+            newStore.printAllHashValues(customer1);
 
             System.out.println(">".repeat(100));
             System.out.println(">".repeat(100));
            // myInventory.printProds();
-
+            Store store = new Store();
             QueueClass queue = new QueueClass();
-            System.out.println(queue.addCustomerToQueueList(customer1));
+
+           //************* IMPLEMENTATION OF FIRST IN FIRST SERVED **************//
+            queue.addCustomerToQueueList(customer1);
             queue.addCustomerToQueueList(customer2);
             queue.addCustomerToQueueList(customer3);
             queue.addCustomerToQueueList(customer4);
+            queue.printQueue();
+            System.out.println("*".repeat(100));
+            //************* IMPLEMENTATION OF PIORITY QUEUE **************//
+            queue.addCustomerToPriorityQueueList(customer2);
+            queue.addCustomerToPriorityQueueList(customer1);
+            queue.addCustomerToPriorityQueueList(customer3);
+            queue.addCustomerToPriorityQueueList(customer4);
+            queue.printingWithPriorityQueue();
         }
 
 }

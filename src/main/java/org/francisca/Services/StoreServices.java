@@ -18,9 +18,9 @@ import java.util.*;
 
 
     public class StoreServices {
-        private Store store;
-        Store newstore = new Store();
-        Users user = new Users();
+        private QueueClass queue;
+       Store newstore = new Store();
+      //  Users user = new Users();
 
         public boolean addToCart(Users customer, String ItemName, long quantity) {
             if (customer.getRoles().equals(Roles.CUSTOMER)) {
@@ -47,56 +47,87 @@ import java.util.*;
 
         public Map<Users, ArrayList<Product>> allCustomerCart(Users customer, Product product) {
 
-            if (newstore.myCart.containsKey(customer)) {
-                newstore.cart = newstore.myCart.get(customer);
+            if (newstore.getMyCart().containsKey(customer)) {
+                newstore.cart = newstore.getMyCart().get(customer);
                 newstore.cart.add(product);
             } else {
                 newstore.cart = new ArrayList<Product>();
                 newstore.cart.add(product);
-                newstore.myCart.put(customer, newstore.cart);
+                newstore.getMyCart().put(customer, (ArrayList<Product>) newstore.getCart());
             }
-            return newstore.myCart;
+            return newstore.getMyCart();
         }
 
 
         public boolean sell(Users cashier, Users customer) {
             double totalPrice = 0;
             boolean result = false;
-            for (Product product : newstore.cart) {
-                totalPrice += product.getUnitPrice() * product.getQuantity();
+            for (Map.Entry<Users, ArrayList<Product>> entry : newstore.getMyCart().entrySet()) {
+                if (entry.getKey().equals(customer)) {
+                    for (Product product : newstore.cart) {
+                        totalPrice = totalPrice + product.getQuantity() * product.getUnitPrice();
 
-                if (cashier.getRoles().equals(Roles.CASHIER)) {
-                    if (customer.getWallet() >= totalPrice) {
-                        customer.setWallet(customer.getWallet() - totalPrice);
-                        printReceipt(customer);
-                        System.out.println("TOTAL PRICE = " + " $" + totalPrice);
-                        result = true;
-                    } else {
-                        System.out.println(" Insufficient money in wallet");
-                        result = false;
+                    }
+                    if (cashier.getRoles().equals(Roles.CASHIER)) {
+                        if (customer.getWallet() >= totalPrice) {
+                            customer.setWallet(customer.getWallet() - totalPrice);
+                            queue.addCustomerToQueueList(customer);
+                            System.out.println("TOTAL PRICE = " + " $" + totalPrice);
+                            result = true;
+                        } else {
+                            System.out.println(" Insufficient money in wallet");
+                            result = false;
+                        }
                     }
                 }
             }
-
             return result;
         }
 
 
         public void printReceipt(Users customer) {
-            for (Map.Entry<Users, ArrayList<Product>> entry : newstore.myCart.entrySet()) {
+
+            for (Map.Entry<Users, ArrayList<Product>> entry : newstore.getMyCart().entrySet()) {
                 String si = "SHOPPING CART OF " + " " + entry;
                 System.out.println(si);
             }
 
         }
 
-        public void printAllHashValues() {
-            for (Map.Entry<Users, ArrayList<Product>> entry : newstore.myCart.entrySet()) {
-                System.out.println(entry);
+        public void printAllHashValues(Users customer) {
+         double total = 0;
+
+            for (Map.Entry<Users, ArrayList<Product>> entry : newstore.getMyCart().entrySet()) {
+                if (entry.getKey().equals(customer)) {
+                    ArrayList<Product> rd = newstore.getMyCart().get(customer);
+                    for (Product product : rd) {
+                        total += product.getUnitPrice();
+
+                    }
+                        System.out.println(entry);
+                           System.out.println("Total price" + total);
+                }
             }
 
+//            public void gettingQuantity(){
+//                long total = 0;
+//
+//                for (Map.Entry<Users, ArrayList<Product>> entry : newstore.getMyCart().entrySet()) {
+//                   if (entry.getKey().equals(customer)) {
+//                        ArrayList<Product> rd = newstore.getMyCart();
+//                        for (Product product : rd) {
+//                            product.getQuantity();
+//                        }
+//                        }
+//
+//                  //  }
+//
+//                }
 
-        }
+//            public void gettingQuantity(Users customer){
+//
+//            }
+//        }
 
 
 
