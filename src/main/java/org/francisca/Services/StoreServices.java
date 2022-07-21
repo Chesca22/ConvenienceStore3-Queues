@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.francisca.Models.Product;
 import org.francisca.Models.Store;
 import org.francisca.Models.Users;
+import org.francisca.Models.customerDTO;
 import org.francisca.Roles;
 
 import java.util.*;
@@ -18,117 +19,74 @@ import java.util.*;
 
 
     public class StoreServices {
-        private QueueClass queue;
-       Store newstore = new Store();
-      //  Users user = new Users();
-
-        public boolean addToCart(Users customer, String ItemName, long quantity) {
-            if (customer.getRoles().equals(Roles.CUSTOMER)) {
-                for (Product prod : Inventory.allProduct) {
-                    if (prod.getItemName().equals(ItemName)) {
-                        if (prod.getQuantity() >= quantity) {
-                            Product newProduct = new Product(ItemName, quantity, prod.getUnitPrice());
-                            newProduct.setUnitPrice(prod.getUnitPrice() * quantity);
-                            allCustomerCart(customer, newProduct);
-                            prod.setQuantity(prod.getQuantity() - quantity);
-                            return true;
-                        } else if (prod.getQuantity() <= 0) {
-                            System.out.println("No item available for purchase");
-
-                        } else {
-                            System.out.println("Only " + prod.getQuantity() + " " + prod.getItemName() + "s remaining in store");
-                        }
+           private QueueClass queue;
+        private Users users;
+       // Users users = new Users();
+        private Product product;
+    public boolean sell(Users cashier, Users customer) {
+        double totalPrice = 0;
+        double walletTotal = 0;
+        boolean result = false;
+        if (cashier.getRoles().equals(Roles.CASHIER)) {
+        for(Map.Entry<String, Product> entry: customer.getCart().entrySet()){
+            totalPrice += entry.getValue().getQuantity() * entry.getValue().getUnitPrice();
+            walletTotal = customer.getWallet() - totalPrice;
+                    if (customer.getWallet() >= totalPrice) {
+                        customer.setWallet(customer.getWallet() - totalPrice);
+                                        result = true;
+                    } else {
+                        System.out.println(" Insufficient money in wallet");
+                        result = false;
                     }
                 }
 
-            }
-            return false;
         }
+        System.out.println("TOTAL PRICE = " + " $" + totalPrice  + '\n'+
+                            "Wallet Balance = " + walletTotal  + '\n' +
+                            "sign: " + cashier.getName() + "  for:  PEOPLE STORE LTD");
 
-        public Map<Users, ArrayList<Product>> allCustomerCart(Users customer, Product product) {
+        return result;
+    }
 
-            if (newstore.getMyCart().containsKey(customer)) {
-                newstore.cart = newstore.getMyCart().get(customer);
-                newstore.cart.add(product);
-            } else {
-                newstore.cart = new ArrayList<Product>();
-                newstore.cart.add(product);
-                newstore.getMyCart().put(customer, (ArrayList<Product>) newstore.getCart());
-            }
-            return newstore.getMyCart();
-        }
-
-
-        public boolean sell(Users cashier, Users customer) {
-            double totalPrice = 0;
-            boolean result = false;
-            for (Map.Entry<Users, ArrayList<Product>> entry : newstore.getMyCart().entrySet()) {
-                if (entry.getKey().equals(customer)) {
-                    for (Product product : newstore.cart) {
-                        totalPrice = totalPrice + product.getQuantity() * product.getUnitPrice();
-
+    public String addProductToCart(List<Product> inventory ,  Users customer , String productName , long quantityToBuy){
+        String output = null;
+        for (Product productInInventory : inventory){
+            if (productInInventory.getItemName().equalsIgnoreCase(productName)){
+                if (productInInventory.getQuantity() >= quantityToBuy){
+                    if (customer.getCart().containsKey(productName)){
+                        Product duplicateProduct = customer.getCart().get(productName);
+                        duplicateProduct.setQuantity(duplicateProduct.getQuantity() + quantityToBuy);
+                        productInInventory.setQuantity(productInInventory.getQuantity() - duplicateProduct.getQuantity());
+                        System.out.println(quantityToBuy + " more " + duplicateProduct.getItemName() + "has been added to cart");
+                        output = "updated product";
+                    }else{
+                        customer.getCart().put(productName , new Product(productInInventory.getCategory() , productName , quantityToBuy , productInInventory.getUnitPrice()));
+                        productInInventory.setQuantity(productInInventory.getQuantity() - quantityToBuy);
+                        output = "product added";
+                        System.out.println( quantityToBuy + " "+productName + " has been added to cart");
                     }
-                    if (cashier.getRoles().equals(Roles.CASHIER)) {
-                        if (customer.getWallet() >= totalPrice) {
-                            customer.setWallet(customer.getWallet() - totalPrice);
-                            queue.addCustomerToQueueList(customer);
-                            System.out.println("TOTAL PRICE = " + " $" + totalPrice);
-                            result = true;
-                        } else {
-                            System.out.println(" Insufficient money in wallet");
-                            result = false;
-                        }
-                    }
+                }else{
+                    output = "Out of Stock";
                 }
+            }else {
+                output = "Product Not Found";
             }
-            return result;
         }
+        return output;
+    }
 
 
-        public void printReceipt(Users customer) {
 
-            for (Map.Entry<Users, ArrayList<Product>> entry : newstore.getMyCart().entrySet()) {
+                public void printReceipt(Users customer) {
+
+            for (Map.Entry<String, Product> entry : users.getCart().entrySet()) {
+
                 String si = "SHOPPING CART OF " + " " + entry;
                 System.out.println(si);
+
             }
 
         }
-
-        public void printAllHashValues(Users customer) {
-         double total = 0;
-
-            for (Map.Entry<Users, ArrayList<Product>> entry : newstore.getMyCart().entrySet()) {
-                if (entry.getKey().equals(customer)) {
-                    ArrayList<Product> rd = newstore.getMyCart().get(customer);
-                    for (Product product : rd) {
-                        total += product.getUnitPrice();
-
-                    }
-                        System.out.println(entry);
-                           System.out.println("Total price" + total);
-                }
-            }
-
-//            public void gettingQuantity(){
-//                long total = 0;
-//
-//                for (Map.Entry<Users, ArrayList<Product>> entry : newstore.getMyCart().entrySet()) {
-//                   if (entry.getKey().equals(customer)) {
-//                        ArrayList<Product> rd = newstore.getMyCart();
-//                        for (Product product : rd) {
-//                            product.getQuantity();
-//                        }
-//                        }
-//
-//                  //  }
-//
-//                }
-
-//            public void gettingQuantity(Users customer){
-//
-//            }
-//        }
-
 
 
 

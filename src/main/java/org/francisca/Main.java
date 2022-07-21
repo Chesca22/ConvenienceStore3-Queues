@@ -6,11 +6,6 @@ import org.francisca.Services.ManagerRole;
 import org.francisca.Services.QueueClass;
 import org.francisca.Services.StoreServices;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Queue;
-import java.util.Scanner;
-
 
 public class Main {
         public static void main(String[] args) {
@@ -18,63 +13,88 @@ public class Main {
             Users applicant = new Users("Moses", Roles.APPLICANT);
             Users manager = new Users("MD", Roles.MANAGER);
             ManagerRole hireApplicant = new ManagerRole();
-           // Users cashier = hireApplicant.canHire(20, "OND", applicant, manager);
-           // System.out.println(cashier);
+            Users cashier = hireApplicant.canHire(20, "OND", applicant, manager);
+            System.out.println(cashier);
             Product product = new Product();
             System.out.println(">".repeat(100));
+
             /*All products available in the store*/
 
             Inventory myInventory = new Inventory();
             myInventory.readingProducts();
 
             StoreServices newStore = new StoreServices();
-            System.out.println("CUSTOMERS IN STORE READY FOR PURCHASE");
+            System.out.println("**********************CUSTOMERS IN STORE");
 
             System.out.println(">".repeat(100));
+            //*********************** Customers added to cart ***************//
+            Users customer1 = new Users("Donald Trump", 001, 3205, Roles.CUSTOMER);
+            newStore.addProductToCart(Inventory.allProduct,customer1, "Banana", 5);
+             newStore.addProductToCart(Inventory.allProduct,customer1, "whole wheat", 20);
 
-            Users customer1 = new Users("Donald Trump", 001, Roles.CUSTOMER);
-            newStore.addToCart(customer1,"banana", 29L);
-            newStore.addToCart( customer1,"bran", 10L);
+            Users customer2 = new Users("Barrack Obama", 002, 4505, Roles.CUSTOMER);
+            newStore.addProductToCart(Inventory.allProduct,customer2, "Carrot", 5);
+            newStore.addProductToCart(Inventory.allProduct,customer2, "Banana", 8);
 
-            //System.out.println("*".repeat(100));
-            Users customer2 = new Users( " Aliko Dangote", 002, Roles.CUSTOMER);
-            newStore.addToCart(customer2, "potato chips", 15L);
-            newStore.addToCart(customer2, "pretzels", 2L);
+            Users customer3 = new Users("Bill Clinton", 003, 2500, Roles.CUSTOMER);
+            newStore.addProductToCart(Inventory.allProduct,customer3, "Banana", 12);
+            newStore.addProductToCart(Inventory.allProduct,customer3, "whole wheat", 12);
+            newStore.addProductToCart(Inventory.allProduct,customer3, "carrot", 12);
 
-           // System.out.println("*".repeat(100));
-            Users customer3 = new Users( "Ngozi Okonjo", 003, Roles.CUSTOMER);
-            newStore.addToCart(customer3,"oatmeal raisin", 10L);
-            newStore.addToCart(customer3, "whole wheat", 12L);
+            Users customer4 = new Users(" Joe Biden", 004, 2005, Roles.CUSTOMER);
+            newStore.addProductToCart(Inventory.allProduct,customer4, "carrot", 25);
+            newStore.addProductToCart(Inventory.allProduct,customer4, "whole wheat", 30);
 
-            //System.out.println("*".repeat(100));
-            Users customer4 = new Users( "George Bush", 004, Roles.CUSTOMER);
-            newStore.addToCart(customer4,"banana", 10L);
-            newStore.addToCart(customer4, "arrowroot", 12L);
-            newStore.addToCart(customer4, "whole wheat", 20L);
+            //*********************** ITEMS IN CUSTOMER CART **********************//
+            System.out.println(customer1.getName() + " " + customer1.getCart());
+            newStore.sell(cashier, customer1);
 
             System.out.println("*".repeat(100));
 
-            newStore.printAllHashValues(customer1);
+            System.out.println(customer2.getName() + " " + customer2.getCart());
+            newStore.sell(cashier, customer2);
 
-            System.out.println(">".repeat(100));
-            System.out.println(">".repeat(100));
-           // myInventory.printProds();
-            Store store = new Store();
+            System.out.println("*".repeat(100));
+
+            System.out.println(customer3.getName() + " " + customer3.getCart());
+            newStore.sell(cashier, customer3);
+
+            System.out.println("*".repeat(100));
+
+            System.out.println(customer3.getName() + " " + customer4.getCart());
+            newStore.sell(cashier, customer4);
+            //************************* IMPLEMENTING FIRST COME FIRST SERVE *****************//
             QueueClass queue = new QueueClass();
+            System.out.println("<".repeat(100));
+            System.out.println("************************  FIRST COME FIRST SERVE *****************");
+            System.out.println("<".repeat(100));
 
-           //************* IMPLEMENTATION OF FIRST IN FIRST SERVED **************//
             queue.addCustomerToQueueList(customer1);
             queue.addCustomerToQueueList(customer2);
             queue.addCustomerToQueueList(customer3);
             queue.addCustomerToQueueList(customer4);
+            System.out.println("<".repeat(100));
+
             queue.printQueue();
-            System.out.println("*".repeat(100));
-            //************* IMPLEMENTATION OF PIORITY QUEUE **************//
-            queue.addCustomerToPriorityQueueList(customer2);
-            queue.addCustomerToPriorityQueueList(customer1);
-            queue.addCustomerToPriorityQueueList(customer3);
-            queue.addCustomerToPriorityQueueList(customer4);
+
+            //************************* IMPLEMENTING PRIORITY QUEUE **************************//
+
+            System.out.println("<".repeat(100));
+            System.out.println("**************************** PRIORITY QUEUE");
+            System.out.println("<".repeat(100));
+
+            //******************** Adding items to priority queue ****************************
+            System.out.println("****************************ADDING CUSTOMER'S ITEMS TO QUEUE");
+            queue.addProductToQueue(customer1);
+            queue.addProductToQueue(customer2);
+            queue.addProductToQueue(customer3);
+            queue.addProductToQueue(customer4);
+            //********************** Printing items base on priority *********************//
+            System.out.println("<".repeat(100));
+            System.out.println(" ******************************PRINTING ITEMS BASED ON PRIORITY");
             queue.printingWithPriorityQueue();
+
+
         }
 
 }
