@@ -1,7 +1,6 @@
 package org.francisca.Services;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.francisca.Models.Product;
 import org.francisca.Models.Store;
@@ -13,11 +12,11 @@ import java.util.*;
 @Setter
 @Getter
 public class QueueClass {
-    private PriorityQueue<customerDTO> carrotQueue = new PriorityQueue<>(4, new customerDTO());
-    private PriorityQueue<customerDTO> barnQueue = new PriorityQueue<>(4, new customerDTO());
-    private PriorityQueue<customerDTO> bananaQueue = new PriorityQueue<>(4, new customerDTO());
-    private PriorityQueue<customerDTO> wholeWheatQueue = new PriorityQueue<>(4, new customerDTO());
-    private PriorityQueue<customerDTO> potatoChipQueue = new PriorityQueue<>(4, new customerDTO());
+    private Queue<customerDTO> carrotQueue = new PriorityQueue<>(4, new customerDTO());
+    private Queue<customerDTO> barnQueue = new PriorityQueue<>(4, new customerDTO());
+    private Queue<customerDTO> bananaQueue = new PriorityQueue<>(4, new customerDTO());
+    private Queue<customerDTO> wholeWheatQueue = new PriorityQueue<>(4, new customerDTO());
+    private Queue<customerDTO> potatoChipQueue = new PriorityQueue<>(4, new customerDTO());
 
     Store store = new Store();
     private Product product;
@@ -26,15 +25,17 @@ public class QueueClass {
 
     // ***************************** IMPLEMENTATION ONE(1) BASED FIRST COME FIRST SERVE **********************//
 
-    public void addCustomerToQueueList(Users customer) {
-        store.getQueueList().add(customer);
+    public String addCustomerToQueueList(Users customer) {
 
+        store.getQueueList().add(customer);
+        return "added";
     }
 
-    public void printQueue() {
+    public String printQueue() {
         while (store.getQueueList().peek() != null) {
-            System.out.println(store.getQueueList().poll() + " has successfully purchased item and receipt issued");
+            System.out.println(store.getQueueList().poll() + " successful");
         }
+        return "done";
     }
 
     // ***************************** IMPLEMENTATION ONE(1) BASED FIRST COME FIRST SERVE **********************//
@@ -48,12 +49,12 @@ public class QueueClass {
                 output = "item added";
             }
             if(entry.getKey().equalsIgnoreCase("whole wheat")){
-                wholeWheatQueue.add(new customerDTO());
+                wholeWheatQueue.add(new customerDTO(customer.getName(), entry.getValue().getItemName(), entry.getValue().getQuantity()));
                 System.out.println(customer.getName() + "  " +  entry.getValue().getItemName() + " added to queue");
                 output = "item added";
             }
             if(entry.getKey().equalsIgnoreCase("banana")){
-                bananaQueue.add(new customerDTO());
+                bananaQueue.add(new customerDTO(customer.getName(), entry.getValue().getItemName(), entry.getValue().getQuantity()));
                 System.out.println(customer.getName() + "  " +  entry.getValue().getItemName() + " added to queue");
                 output = "item added";
             }
@@ -69,7 +70,7 @@ public class QueueClass {
     }
 
 
- public void printingWithPriorityQueue() {
+ public String printingWithPriorityQueue() {
      while(!bananaQueue.isEmpty()){
          System.out.println(bananaQueue.poll());
      }
@@ -85,7 +86,7 @@ public class QueueClass {
      while(!carrotQueue.isEmpty()){
          System.out.println(carrotQueue.poll());
      }
-
+    return "done";
  }
 }
 

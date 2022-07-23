@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.francisca.Models.Product;
-import org.francisca.Models.Store;
+//import org.francisca.Models.Store;
 import org.francisca.Models.Users;
-import org.francisca.Models.customerDTO;
+//import org.francisca.Models.customerDTO;
 import org.francisca.Roles;
 
 import java.util.*;
@@ -19,20 +19,23 @@ import java.util.*;
 
 
     public class StoreServices {
-           private QueueClass queue;
-        private Users users;
-       // Users users = new Users();
-        private Product product;
+    private QueueClass queue;
+    private Users users;
+    private Product product;
+
     public boolean sell(Users cashier, Users customer) {
         double totalPrice = 0;
         double walletTotal = 0;
-        boolean result = false;
-        if (cashier.getRoles().equals(Roles.CASHIER)) {
+        boolean result = true;
+        if (cashier.getRoles().equals(Roles.CASHIER) && customer.getRoles().equals(Roles.CUSTOMER)) {
         for(Map.Entry<String, Product> entry: customer.getCart().entrySet()){
             totalPrice += entry.getValue().getQuantity() * entry.getValue().getUnitPrice();
             walletTotal = customer.getWallet() - totalPrice;
-                    if (customer.getWallet() >= totalPrice) {
+            if (customer.getWallet() >= totalPrice) {
                         customer.setWallet(customer.getWallet() - totalPrice);
+                        System.out.println("Money in wallet, ready for purchase");
+
+                        //call print recipt method here
                                         result = true;
                     } else {
                         System.out.println(" Insufficient money in wallet");
@@ -41,15 +44,15 @@ import java.util.*;
                 }
 
         }
-        System.out.println("TOTAL PRICE = " + " $" + totalPrice  + '\n'+
-                            "Wallet Balance = " + walletTotal  + '\n' +
-                            "sign: " + cashier.getName() + "  for:  PEOPLE STORE LTD");
-
+        else {
+            System.out.println("NOT AUTHORIZED USER");
+        }
+        //System.out.println("THANKS FOR BUYING");
         return result;
     }
 
     public String addProductToCart(List<Product> inventory ,  Users customer , String productName , long quantityToBuy){
-        String output = null;
+        String output = "";
         for (Product productInInventory : inventory){
             if (productInInventory.getItemName().equalsIgnoreCase(productName)){
                 if (productInInventory.getQuantity() >= quantityToBuy){
@@ -79,9 +82,9 @@ import java.util.*;
 
                 public void printReceipt(Users customer) {
 
-            for (Map.Entry<String, Product> entry : users.getCart().entrySet()) {
+            for (Map.Entry<String, Product> entry : customer.getCart().entrySet()) {
 
-                String si = "SHOPPING CART OF " + " " + entry;
+                String si = "SHOPPING CART OF " + customer.getName() +" " + entry;
                 System.out.println(si);
 
             }

@@ -1,25 +1,18 @@
 package org.francisca.Models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Comparator;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class customerDTO implements Comparator<customerDTO> {
 
 
 private String customerName;
 private String productName;
 private long productQuantity;
-
-
-
 
 
 

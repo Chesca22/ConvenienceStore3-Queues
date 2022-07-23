@@ -2,9 +2,8 @@ package org.francisca.Models;
 
 import org.francisca.Roles;
 import org.francisca.Services.ManagerRole;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ManagerRoleTest {
     Users applicant;
@@ -20,8 +19,8 @@ class ManagerRoleTest {
         applicant = new Users("Maryv", Roles.APPLICANT);
         manager = new Users("Manjo", Roles.MANAGER);
         Users tester = managerRole.canHire(20, "OND", applicant, manager);
-        assertEquals(applicant.getName(), tester.getName());
-        assertEquals(applicant.getRoles(), tester.getRoles());
+        Assertions.assertEquals(applicant.getName(), tester);
+        Assertions.assertEquals(applicant.getRoles(), tester);
     }
 
     @Test
@@ -29,9 +28,9 @@ class ManagerRoleTest {
         ManagerRole managerRole = new ManagerRole();
         applicant = new Users("Mark", Roles.APPLICANT);
         manager = new Users("Miles", Roles.MANAGER);
-        Users tester = managerRole.canHire(16, "BSC", applicant, manager);
-        assertNotEquals(applicant.getName(), tester);
-        assertNotEquals(applicant.getRoles(), tester);
+        Users tester1 = managerRole.canHire(16, "BSC", applicant, manager);
+        Assertions.assertNotEquals(applicant.getName(), tester1);
+        Assertions.assertNotEquals(applicant.getRoles(), tester1);
     }
 
 }

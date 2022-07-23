@@ -20,14 +20,15 @@ public class Main {
 
             /*All products available in the store*/
 
-            Inventory myInventory = new Inventory();
+           Inventory myInventory = new Inventory();
             myInventory.readingProducts();
 
             StoreServices newStore = new StoreServices();
-            System.out.println("**********************CUSTOMERS IN STORE");
+            System.out.println("****************************CUSTOMERS IN STORE");
 
             System.out.println(">".repeat(100));
-            //*********************** Customers added to cart ***************//
+            System.out.println("details of items added to cart");
+            //**************************** Customers added to cart *************************//
             Users customer1 = new Users("Donald Trump", 001, 3205, Roles.CUSTOMER);
             newStore.addProductToCart(Inventory.allProduct,customer1, "Banana", 5);
              newStore.addProductToCart(Inventory.allProduct,customer1, "whole wheat", 20);
@@ -45,7 +46,7 @@ public class Main {
             newStore.addProductToCart(Inventory.allProduct,customer4, "carrot", 25);
             newStore.addProductToCart(Inventory.allProduct,customer4, "whole wheat", 30);
 
-            //*********************** ITEMS IN CUSTOMER CART **********************//
+            //******************************** ITEMS IN CUSTOMER CART ********************************//
             System.out.println(customer1.getName() + " " + customer1.getCart());
             newStore.sell(cashier, customer1);
 
@@ -63,10 +64,11 @@ public class Main {
 
             System.out.println(customer3.getName() + " " + customer4.getCart());
             newStore.sell(cashier, customer4);
-            //************************* IMPLEMENTING FIRST COME FIRST SERVE *****************//
+
+            //********************************* IMPLEMENTING FIRST COME FIRST SERVE ***********************//
             QueueClass queue = new QueueClass();
             System.out.println("<".repeat(100));
-            System.out.println("************************  FIRST COME FIRST SERVE *****************");
+            System.out.println("************************  FIRST COME FIRST SERVE");
             System.out.println("<".repeat(100));
 
             queue.addCustomerToQueueList(customer1);
@@ -80,7 +82,7 @@ public class Main {
             //************************* IMPLEMENTING PRIORITY QUEUE **************************//
 
             System.out.println("<".repeat(100));
-            System.out.println("**************************** PRIORITY QUEUE");
+            System.out.println("**************************** PRIORITY QUEUE ");
             System.out.println("<".repeat(100));
 
             //******************** Adding items to priority queue ****************************
@@ -94,7 +96,8 @@ public class Main {
             System.out.println(" ******************************PRINTING ITEMS BASED ON PRIORITY");
             queue.printingWithPriorityQueue();
 
-
+            System.out.println("********************************");
+            newStore.printReceipt(customer1);
         }
 
 }
