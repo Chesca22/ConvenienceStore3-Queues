@@ -12,11 +12,11 @@ import java.util.*;
 @Setter
 @Getter
 public class QueueClass {
-    private Queue<customerDTO> carrotQueue = new PriorityQueue<>(4, new customerDTO());
-    private Queue<customerDTO> barnQueue = new PriorityQueue<>(4, new customerDTO());
-    private Queue<customerDTO> bananaQueue = new PriorityQueue<>(4, new customerDTO());
-    private Queue<customerDTO> wholeWheatQueue = new PriorityQueue<>(4, new customerDTO());
-    private Queue<customerDTO> potatoChipQueue = new PriorityQueue<>(4, new customerDTO());
+    private Queue<customerDTO> carrotQueue = new PriorityQueue<>( new customerDTO());
+    private Queue<customerDTO> barnQueue = new PriorityQueue<>(new customerDTO());
+    private Queue<customerDTO> bananaQueue = new PriorityQueue<>(new customerDTO());
+    private Queue<customerDTO> wholeWheatQueue = new PriorityQueue<>(new customerDTO());
+    private Queue<customerDTO> potatoChipQueue = new PriorityQueue<>(new customerDTO());
 
     Store store = new Store();
     private Product product;
@@ -63,7 +63,6 @@ public class QueueClass {
                 System.out.println(customer.getName() + "  " +  entry.getValue().getItemName() + " added to queue");
                 output = "item added";
             }
-            else output = "item does not exist";
 
         }
         return output;

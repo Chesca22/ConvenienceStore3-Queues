@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class StoreServicesTest {
 
     StoreServices store = new StoreServices();
-    Product product = new Product();
+   // Product product = new Product();
     Users Franca = new Users("Franc", 001, 3000, Roles.CUSTOMER);
 
     Users Eunice = new Users("Eunice", 002, 2500,Roles.CUSTOMER);
@@ -31,11 +31,29 @@ class StoreServicesTest {
 
     @Test
     void addProductToCart() {
-        // testing for duplicated product in cart
-        Inventory.allProduct.add(new Product("bars" , "carrot" , 90 , 9));
-      //  Inventory.allProduct.add(new Product("cookies" , "Potato chips" , 20 , 9));
-        String actualResult = store.addProductToCart(Inventory.allProduct, Franca, "carrot", 10);
+        Inventory.allProduct.add(new Product("cookies" , "whole wheat" , 90 , 9));
+        String actualResult = store.addProductToCart(Inventory.allProduct, Franca, "whole wheat", 10);
         assertEquals("product added", actualResult);
+
+    }
+
+    @Test
+    void addingSameProductToCart() {
+        // testing for duplicated product in cart
+        Inventory.allProduct.add(new Product("cookies" , "carrot" , 90 , 9));
+        Inventory.allProduct.add(new Product("cookies" , "carrot" , 20 , 9));
+        String actualResult = store.addProductToCart(Inventory.allProduct, Franca, "carrot", 20);
+        assertEquals("updated product", actualResult);
+
+    }
+
+    @Test
+    void checkingOutOfStockProduct() {
+        // testing for duplicated product in cart
+       // Inventory.allProduct.add(new Product("cookies" , "carrot" , 90 , 9));
+        Inventory.allProduct.add(new Product("bars" , "potato chips" , 20 , 9));
+        String actualResult = store.addProductToCart(Inventory.allProduct, Franca, "potato chips", 50);
+        assertEquals("Out of Stock", actualResult);
 
     }
 
@@ -48,7 +66,6 @@ class StoreServicesTest {
         store.addProductToCart(Inventory.allProduct, Franca, "banana", 4);
         Boolean st = store.sell(cashier, Franca);
         assertTrue(st);
-       // assertEquals(true, st);
 
 
     }

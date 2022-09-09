@@ -14,11 +14,10 @@ public class Main {
             Users manager = new Users("MD", Roles.MANAGER);
             ManagerRole hireApplicant = new ManagerRole();
             Users cashier = hireApplicant.canHire(20, "OND", applicant, manager);
-            System.out.println(cashier);
-            Product product = new Product();
+            //System.out.println(cashier);
             System.out.println(">".repeat(100));
 
-            /*All products available in the store*/
+            //*********** All products available in the store ******************/
 
            Inventory myInventory = new Inventory();
             myInventory.readingProducts();
@@ -27,11 +26,12 @@ public class Main {
             System.out.println("****************************CUSTOMERS IN STORE");
 
             System.out.println(">".repeat(100));
-            System.out.println("details of items added to cart");
+            System.out.println("********* Details of items added to cart ************");
+
             //**************************** Customers added to cart *************************//
             Users customer1 = new Users("Donald Trump", 001, 3205, Roles.CUSTOMER);
             newStore.addProductToCart(Inventory.allProduct,customer1, "Banana", 5);
-             newStore.addProductToCart(Inventory.allProduct,customer1, "whole wheat", 20);
+            newStore.addProductToCart(Inventory.allProduct,customer1, "whole wheat", 20);
 
             Users customer2 = new Users("Barrack Obama", 002, 4505, Roles.CUSTOMER);
             newStore.addProductToCart(Inventory.allProduct,customer2, "Carrot", 5);
@@ -91,13 +91,14 @@ public class Main {
             queue.addProductToQueue(customer2);
             queue.addProductToQueue(customer3);
             queue.addProductToQueue(customer4);
+
             //********************** Printing items base on priority *********************//
             System.out.println("<".repeat(100));
             System.out.println(" ******************************PRINTING ITEMS BASED ON PRIORITY");
             queue.printingWithPriorityQueue();
 
-            System.out.println("********************************");
-            newStore.printReceipt(customer1);
+         System.out.println(myInventory.readingProducts());
+
         }
 
 }
