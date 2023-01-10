@@ -2,13 +2,13 @@ STORE SALES AND MANAGEMENT
 
 Problem Description
 
-Use your understanding of collections and generics to implement sales and purchase in your store application.
+Using understanding of collections and generics to implement sales and purchase in your store application.
 
 1. Implement priority queue based on customers' FIFO (First In, First Out).
 
 2. Implement priority queue based on the number of Items per customer
 
-How will I complete this project?
+How will to complete this project?
 
 3. Write automated test
 
